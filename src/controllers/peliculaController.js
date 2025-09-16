@@ -6,9 +6,19 @@ export const getPeliculaById = async (req, res) => {
 
   try {
     const [rows] = await pool.query('CALL sp_getPelicula(?)', [peliculaId]);
-    res.json(rows[0]);
+    res.status(200).json({
+        succes:true,
+        code:200,
+        data:rows[0],
+        message:'Exito'
+    });
   } catch (error) {
-    console.error(error);
-    res.status(500).send('Error en el servidor');
+  console.error(error); 
+  res.status(500).json({
+    success: false,
+    code: 500,
+    message: 'Error en el servidor',
+    error: error.message 
+  });
   }
 };
